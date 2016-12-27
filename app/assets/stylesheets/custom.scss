@@ -156,6 +156,22 @@ aside {
   margin-top: 15px;
 }
 
+// forms
+
+input,
+textarea,
+select,
+.uneditable_input {
+  @include box-sizing;
+  border: 1px solid #bbb;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+input {
+  height: auto !important;
+}
+
 // miscellaneous
 
 .debug_dump {
