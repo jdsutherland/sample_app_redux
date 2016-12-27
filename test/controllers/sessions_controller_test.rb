@@ -13,6 +13,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should delete logout" do
     delete logout_path
+    follow_redirect!
     assert_response :success
   end
 end
