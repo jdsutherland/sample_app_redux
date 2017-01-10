@@ -6,7 +6,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     @non_admin = users(:archer)
   end
 
-  test "index including pagination" do
+  test "index including pagination shows activated only" do
     log_in_as(@admin)
 
     get users_path
@@ -15,9 +15,13 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select 'div.pagination'
 
     User.paginate(page: 1).each do |user|
-      assert_select 'a[href=?]', user_path(user), text: user.name
-      unless user == @admin
-        assert_select 'a[href=?]', user_path(user), text: 'delete'
+      if user.activated?
+        assert_select 'a[href=?]', user_path(user), text: user.name
+        unless user == @admin
+          assert_select 'a[href=?]', user_path(user), text: 'delete'
+        end
+      else
+        assert_select 'a[href=?]', user_path(user), text: user.name, count: 0
       end
     end
 
